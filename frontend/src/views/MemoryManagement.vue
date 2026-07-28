@@ -44,7 +44,7 @@
 import { ref, onMounted } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { getList, deleteTheme } from '@/api/memory'
+import { getMemoryList, deleteMemoryTheme } from '@/api/memory'
 import MemoryList from '@/components/memory/MemoryList.vue'
 import MemoryCreateDialog from '@/components/memory/MemoryCreateDialog.vue'
 import MemoryViewDialog from '@/components/memory/MemoryViewDialog.vue'
@@ -52,6 +52,7 @@ import MemoryEditDialog from '@/components/memory/MemoryEditDialog.vue'
 import type { MemoryTheme } from '@/types/memory'
 
 const USER_ID = 'user_001'
+const ROLE_ID = 'role_001'
 
 const memoryList = ref<MemoryTheme[]>([])
 const loading = ref(false)
@@ -68,10 +69,11 @@ const editMemoryId = ref('')
 const fetchList = async () => {
   loading.value = true
   try {
-    const res = await getList({
-      userId: USER_ID,
+    const res = await getMemoryList({
+      user_id: USER_ID,
+      role_id: ROLE_ID,
       page: page.value,
-      pageSize: pageSize.value,
+      page_size: pageSize.value,
     })
     memoryList.value = res.data.list || []
     total.value = res.data.total || 0
@@ -89,23 +91,23 @@ const handlePageChange = (p: number, ps: number) => {
 }
 
 const handleView = (row: MemoryTheme) => {
-  viewMemoryId.value = row.memoryId
+  viewMemoryId.value = row.memory_id
   showViewDialog.value = true
 }
 
 const handleEdit = (row: MemoryTheme) => {
-  editMemoryId.value = row.memoryId
+  editMemoryId.value = row.memory_id
   showEditDialog.value = true
 }
 
 const handleDelete = async (row: MemoryTheme) => {
   try {
     await ElMessageBox.confirm(
-      `确定要删除记忆主题"${row.themeName}"吗？此操作将删除所有关联文件和记忆内容，且不可恢复。`,
+      `确定要删除记忆主题"${row.theme_name}"吗？此操作将删除所有关联文件和记忆内容，且不可恢复。`,
       '删除确认',
       { confirmButtonText: '确定删除', cancelButtonText: '取消', type: 'warning' }
     )
-    await deleteTheme(row.memoryId)
+    await deleteMemoryTheme(row.memory_id)
     ElMessage.success('删除成功')
     fetchList()
   } catch (e: any) {

@@ -1,34 +1,46 @@
 import { get, post, del } from './index'
 import type { ApiResponse, MemoryTheme, PageResult } from '../types/memory'
 
-export function checkTheme(userId: string, roleId: string, themeName: string) {
-  return get<ApiResponse<MemoryTheme | null>>('/api/memory/check-theme', { userId, roleId, themeName })
+export function checkMemoryTheme(params: { user_id: string; role_id: string; theme_name: string }) {
+  return get<ApiResponse<{ exists: boolean }>>('/api/memory/check-theme', params)
 }
 
 export function applyMemoryId() {
-  return post<ApiResponse<string>>('/api/memory/apply-id')
+  return post<ApiResponse<{ memory_id: string }>>('/api/memory/apply-id')
 }
 
-export function saveMemory(data: MemoryTheme) {
-  return post<ApiResponse<MemoryTheme>>('/api/memory/save', data)
+export function saveMemory(data: {
+  user_id: string
+  role_id: string
+  memory_id: string
+  theme_name: string
+  subjective_desc?: string
+  files: { file_key: string; file_type: string; file_name: string }[]
+}) {
+  return post<ApiResponse<{ memory_id: string }>>('/api/memory/save', data)
 }
 
-export function deleteFile(memoryId: string, fileId: number) {
-  return del<ApiResponse<void>>(`/api/memory/${memoryId}/file/${fileId}`)
+export function deleteMemoryFile(memoryId: string, fileId: number) {
+  return del<ApiResponse<null>>('/api/memory/file', { params: { memory_id: memoryId, file_id: fileId } })
 }
 
-export function deleteTheme(memoryId: string) {
-  return del<ApiResponse<void>>(`/api/memory/${memoryId}`)
+export function deleteMemoryTheme(memoryId: string) {
+  return del<ApiResponse<null>>('/api/memory/theme', { params: { memory_id: memoryId } })
 }
 
-export function getList(params: { page?: number; pageSize?: number; userId?: string; status?: string }) {
+export function getMemoryList(params: {
+  user_id: string
+  role_id: string
+  page?: number
+  page_size?: number
+}) {
   return get<ApiResponse<PageResult<MemoryTheme>>>('/api/memory/list', params)
 }
 
-export function getDetail(memoryId: string) {
-  return get<ApiResponse<MemoryTheme>>(`/api/memory/${memoryId}`)
+export function getMemoryDetail(memoryId: string) {
+  return get<ApiResponse<MemoryTheme>>('/api/memory/detail', { memory_id: memoryId })
 }
 
-export function getStatus(memoryId: string) {
-  return get<ApiResponse<Pick<MemoryTheme, 'status'>>>('/api/memory/status', { memoryId })
+export function getMemoryStatus(memoryId: string) {
+  return get<ApiResponse<{ status: string }>>('/api/memory/status', { memory_id: memoryId })
 }
