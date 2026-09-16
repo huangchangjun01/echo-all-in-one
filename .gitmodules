@@ -1,12 +1,12 @@
 [submodule "web"]
 	path = web
-	url = E:/FE/workspace/echo-web
+	url = git@github.com:changjunhuang/echo-web.git
 	branch = master
 [submodule "core"]
 	path = core
-	url = E:/Goland/Workspace/echo-core
+	url = git@github.com:changjunhuang/echo-core.git
 	branch = master
 [submodule "ai"]
 	path = ai
-	url = E:/python/workspace/echo-ai
+	url = git@github.com:changjunhuang/echo-ai.git
 	branch = master
