@@ -1,0 +1,42 @@
+# =============================================================
+# Echo All-in-One 根 .gitignore
+# 规则对 web/ core/ ai/ 所有子目录生效（父子规则叠加）
+# =============================================================
+
+# ---- 密钥与本地配置（各子项目 .env 均含真实密钥，严禁入库） ----
+.env
+*.qiniu
+
+# ---- 日志 ----
+*.log
+logs/
+
+# ---- 前端构建与依赖 ----
+node_modules/
+dist/
+dist-ssr/
+
+# ---- Python 环境与缓存 ----
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# ---- Go 可执行产物 ----
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+.bin/
+
+# ---- IDE / 个人工具 ----
+.idea/
+.vscode/
+.claude/
+*.swp
+*.swo
+*~

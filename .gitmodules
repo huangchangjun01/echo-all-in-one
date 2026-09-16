@@ -1,0 +1,12 @@
+[submodule "web"]
+	path = web
+	url = E:/FE/workspace/echo-web
+	branch = master
+[submodule "core"]
+	path = core
+	url = E:/Goland/Workspace/echo-core
+	branch = master
+[submodule "ai"]
+	path = ai
+	url = E:/python/workspace/echo-ai
+	branch = master
